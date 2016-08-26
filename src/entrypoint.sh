@@ -32,4 +32,4 @@ cat /tmp/batch.sql
 cat /tmp/batch.js
 
 mysql -h ${DB_HOST} -u ${DB_MASTERUSERNAME} -p${DB_MASTERPASSWORD} < /tmp/batch.sql
-mongo ${MONGO_HOST}/${CLUSTER_ID} /tmp/batch.js
+mongo ${MONGO_HOST}/${CLUSTER_ID} --username ${MONGO_MASTERUSERNAME} --password ${MONGO_MASTERPASSWORD} --authenticationDatabase admin /tmp/batch.js
