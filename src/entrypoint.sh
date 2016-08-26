@@ -4,9 +4,13 @@ set -a
 set -x
 set -e
 
-: ${DB_HOST:?}
+: ${DB_HOST:localhost}
+: ${MONGO_HOST:localhost}
+
 : ${DB_MASTERUSERNAME:?}
+: ${MONGO_MASTERUSERNAME:?}
 : ${DB_MASTERPASSWORD:?}
+: ${MONGO_MASTERPASSWORD:?}
 : ${CLUSTER_ID:?}
 
 : ${DB_PASSWORD:?}
@@ -20,6 +24,12 @@ GRANT ALL on ${CLUSTER_ID}_master.* to '${CLUSTER_ID}'@'%' ;
 FLUSH PRIVILEGES ;
 EOF
 
+cat > /tmp/batch.js <<EOF
+db.createUser({user:"${CLUSTER_ID}", pwd: "${DB_PASSWORD}", roles: [{role: "readWrite", db: "${CLUSTER_ID}"}] })
+EOF
+
 cat /tmp/batch.sql
+cat /tmp/batch.js
 
 mysql -h ${DB_HOST} -u ${DB_MASTERUSERNAME} -p${DB_MASTERPASSWORD} < /tmp/batch.sql
+mongo ${MONGO_HOST}/${CLUSTER_ID} /tmp/batch.js
