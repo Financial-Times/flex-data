@@ -17,15 +17,15 @@ set -e
 
 cat > /tmp/batch.sql <<EOF
 CREATE DATABASE IF NOT EXISTS ${CLUSTER_ID}_master ;
-CREATE USER IF NOT EXISTS '${CLUSTER_ID}'@'%' IDENTIFIED BY '${DB_PASSWORD}' ;
+GRANT ALL on ${CLUSTER_ID}_master.* to '${CLUSTER_ID}'@'%' IDENTIFIED BY '${DB_PASSWORD}' ;
 GRANT TRIGGER on ${CLUSTER_ID}_master.* to '${CLUSTER_ID}'@'%' ;
-GRANT ALL on ${CLUSTER_ID}_master.* to '${CLUSTER_ID}'@'%' ;
 
 FLUSH PRIVILEGES ;
 EOF
 
 cat > /tmp/batch.js <<EOF
 db.createUser({user:"${CLUSTER_ID}", pwd: "${DB_PASSWORD}", roles: [{role: "readWrite", db: "${CLUSTER_ID}"}] })
+sh.enableharding("${CLUSTER_ID}")
 EOF
 
 cat /tmp/batch.sql
