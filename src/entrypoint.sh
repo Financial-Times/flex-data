@@ -25,7 +25,7 @@ EOF
 
 cat > /tmp/batch.js <<EOF
 db.createUser({user:"${CLUSTER_ID}", pwd: "${DB_PASSWORD}", roles: [{role: "readWrite", db: "${CLUSTER_ID}"}] })
-sh.enableharding("${CLUSTER_ID}")
+sh.enableSharding("${CLUSTER_ID}")
 EOF
 
 cat /tmp/batch.sql
