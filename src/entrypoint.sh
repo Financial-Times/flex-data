@@ -17,7 +17,7 @@ set -e
 
 : ${DB_PASSWORD:?}
 
-if [[ "${BUILDOUT}" = 'install']]; then
+if [[ "${BUILDOUT}" = 'install' ]]; then
     cat > /tmp/batch.sql <<EOF
     CREATE DATABASE IF NOT EXISTS ${CLUSTER_ID}_master ;
     GRANT ALL on ${CLUSTER_ID}_master.* to '${CLUSTER_ID}'@'%' IDENTIFIED BY '${DB_PASSWORD}' ;
@@ -29,7 +29,7 @@ EOF
 	db.createUser({user:"${CLUSTER_ID}", pwd: "${DB_PASSWORD}", roles: [{role: "readWrite", db: "${CLUSTER_ID}"}] })
 	sh.enableSharding("${CLUSTER_ID}")
 EOF
-elif [[ "${BUILDOUT}" = 'teardown']]; then
+elif [[ "${BUILDOUT}" = 'teardown' ]]; then
     cat > /tmp/batch.sql <<EOF
     DROP DATABASE IF EXISTS ${CLUSTER_ID}_master ;
     USE DATABASE mysql;
