@@ -33,7 +33,7 @@ elif [[ "${BUILDOUT}" = 'teardown' ]]; then
     cat > /tmp/batch.sql <<EOF
     DROP DATABASE IF EXISTS ${CLUSTER_ID}_master ;
     USE DATABASE mysql;
-    DROP USER IF EXISTS '${CLUSTER_ID}' ;
+    DROP USER ${CLUSTER_ID} ;
 EOF
     cat > /tmp/batch.js <<EOF
     db.dropDatabase()
